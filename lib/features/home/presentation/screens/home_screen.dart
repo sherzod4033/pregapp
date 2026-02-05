@@ -3,39 +3,45 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/glass_card.dart';
 
 /// Screen 2: Home Dashboard
-/// Shows pregnancy progress, baby size, stats, and daily tip
+/// Shows pregnancy progress with 3D fetus visualization
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  // Demo data - in real app this would come from state/provider
+  static const int currentWeek = 24;
+  static const int currentDay = 3;
+  static const String dueDate = '12 Июл';
+  static const int trimester = 2;
+  static const int weightGrams = 600;
+  static const int lengthCm = 30;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.only(bottom: 120),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
-            // Header with profile
+            // Header
             _buildHeader(context),
 
-            const SizedBox(height: 24),
+            // Fetus section with side stats
+            _buildFetusSection(context),
 
-            // Hero card - pregnancy progress
-            _buildHeroCard(context),
-
-            const SizedBox(height: 24),
-
-            // Stats row
-            _buildStatsRow(context),
+            // Week selector
+            _buildWeekSelector(context),
 
             const SizedBox(height: 24),
 
-            // Tip of the day
-            _buildTipCard(context),
+            // Date info
+            _buildDateInfo(context),
 
-            const SizedBox(height: 100), // Bottom nav padding
+            const SizedBox(height: 16),
+
+            // Info cards
+            _buildInfoCards(context),
           ],
         ),
       ),
@@ -43,226 +49,171 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            gradient: AppColors.primaryGradient,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Icon(
-            Icons.person_rounded,
-            color: Colors.white,
-            size: 28,
-          ),
-        ),
-        const SizedBox(width: 14),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Салом, Мадина! 👋',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(
-              'Рӯзи хуш доштани бошед',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
-        const Spacer(),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.glassWhite,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.glassBorder),
-          ),
-          child: Icon(
-            Icons.notifications_none_rounded,
-            color: AppColors.textDark,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeroCard(BuildContext context) {
-    return GlassCard(
-      padding: EdgeInsets.zero,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: AppColors.heroGradient,
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Week progress with illustration
-              Row(
-                children: [
-                  // Progress arc
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ҳафтаи 20',
-                          style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Кӯдаки шумо ба андозаи банан аст 🍌',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        const SizedBox(height: 20),
-                        // Progress bar
-                        Container(
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: FractionallySizedBox(
-                            alignment: Alignment.centerLeft,
-                            widthFactor: 20 / 40, // Week 20 of 40
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: AppColors.primaryGradient,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '140 рӯз боқӣ',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.textMedium,
-                          ),
-                        ),
-                      ],
+              Text(
+                'ХУШ ОМАДЕД',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white.withOpacity(0.8),
+                  letterSpacing: 1.5,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                'Салом, Мадина',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                  const SizedBox(width: 20),
-                  // Baby illustration placeholder
-                  Container(
-                    width: 120,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          AppColors.dustyPink.withOpacity(0.3),
-                          AppColors.peach.withOpacity(0.5),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.5),
-                        width: 2,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '👶',
-                          style: TextStyle(fontSize: 48),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '~25 см',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatsRow(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _StatWidget(
-            icon: Icons.monitor_weight_outlined,
-            value: '62 кг',
-            label: 'Вазни шумо',
-            color: AppColors.coral,
-          ),
-          const SizedBox(width: 12),
-          _StatWidget(
-            icon: Icons.calendar_today_rounded,
-            value: '140',
-            label: 'Рӯзҳои боқимонда',
-            color: AppColors.success,
-          ),
-          const SizedBox(width: 12),
-          _StatWidget(
-            icon: Icons.favorite_rounded,
-            value: '145',
-            label: 'Зарбаҳои дил',
-            color: AppColors.danger,
-          ),
-          const SizedBox(width: 12),
-          _StatWidget(
-            icon: Icons.local_drink_rounded,
-            value: '6/8',
-            label: 'Стакон об',
-            color: Colors.lightBlue,
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.settings_outlined,
+              color: Colors.white,
+              size: 22,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTipCard(BuildContext context) {
-    return GlassCard(
-      child: Row(
+  Widget _buildFetusSection(BuildContext context) {
+    return SizedBox(
+      height: 340,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
+          // Glow effect
           Container(
-            padding: const EdgeInsets.all(12),
+            width: 200,
+            height: 200,
             decoration: BoxDecoration(
-              color: AppColors.warning.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              Icons.lightbulb_rounded,
-              color: AppColors.warning,
-              size: 28,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.3),
+                  blurRadius: 60,
+                  spreadRadius: 30,
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+          // Fetus image
+          Image.asset(
+            'assets/images/fetus.png',
+            height: 280,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: AppColors.peach.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Text('👶', style: TextStyle(fontSize: 80)),
+                ),
+              );
+            },
+          ),
+
+          // Left stat - Weight
+          Positioned(
+            left: 16,
+            child: _buildSideStat(
+              label: 'Вазн',
+              value: '$weightGrams',
+              unit: 'г',
+              alignment: CrossAxisAlignment.start,
+            ),
+          ),
+
+          // Right stat - Length
+          Positioned(
+            right: 16,
+            child: _buildSideStat(
+              label: 'Дарозӣ',
+              value: '$lengthCm',
+              unit: 'см',
+              alignment: CrossAxisAlignment.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSideStat({
+    required String label,
+    required String value,
+    required String unit,
+    required CrossAxisAlignment alignment,
+  }) {
+    return Container(
+      width: 70,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4716A),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: alignment,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withOpacity(0.9),
+            ),
+          ),
+          const SizedBox(height: 4),
+          RichText(
+            text: TextSpan(
               children: [
-                Text(
-                  'Маслиҳати рӯз',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                TextSpan(
+                  text: value,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Бештар об нӯшед - ҳадди ақал 8 стакон дар рӯз барои саломатии шумо ва кӯдак.',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                TextSpan(
+                  text: unit,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -271,49 +222,217 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildWeekSelector(BuildContext context) {
+    const visibleWeeks = [22, 23, 24, 25, 26];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: visibleWeeks.map((week) {
+          final isSelected = week == currentWeek;
+          final distance = (week - currentWeek).abs();
+          final opacity = distance == 0 ? 1.0 : (distance == 1 ? 0.8 : 0.6);
+          final scale = distance == 0 ? 1.1 : (distance == 1 ? 1.0 : 0.9);
+
+          return Transform.scale(
+            scale: scale,
+            child: Opacity(
+              opacity: opacity,
+              child: Column(
+                children: [
+                  Container(
+                    width: isSelected ? 48 : 40,
+                    height: isSelected ? 48 : 40,
+                    decoration: BoxDecoration(
+                      gradient: isSelected
+                          ? const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Color(0xFFFF6B6B), Color(0xFFE05555)],
+                            )
+                          : null,
+                      shape: BoxShape.circle,
+                      border: isSelected
+                          ? Border.all(color: Colors.white.withOpacity(0.5), width: 2)
+                          : Border.all(
+                              color: const Color(0xFF8C4A4A).withOpacity(opacity * 0.5),
+                              width: 2,
+                            ),
+                      boxShadow: isSelected
+                          ? [
+                              BoxShadow(
+                                color: const Color(0xFFFF6B6B).withOpacity(0.4),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '$week',
+                        style: TextStyle(
+                          fontSize: isSelected ? 20 : 16,
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.white : const Color(0xFF8C4A4A),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (isSelected) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'ҲАФТА',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF8C4A4A),
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildDateInfo(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$currentWeek ҳафта ва $currentDay рӯз',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textDark,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Санаи тахминии таваллуд: $dueDate',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.textMedium,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withOpacity(0.5)),
+            ),
+            child: Text(
+              'Триместри $trimester',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF3D3D3D),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCards(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          _InfoCard(
+            title: 'Кӯдак',
+            description: 'Дар ин ҳафта кӯдак ба андозаи ҷуворимакка аст. Рӯй ва бадани ӯ шакл мегирад ва ҳаракатҳои ӯ фаъолтар мешаванд.',
+          ),
+          const SizedBox(height: 12),
+          _InfoCard(
+            title: 'Модар',
+            description: 'Шумо метавонед каме варамро дар пойҳо эҳсос кунед. Ин муқаррарӣ аст, кӯшиш кунед бештар истироҳат кунед.',
+          ),
+          const SizedBox(height: 12),
+          _InfoCard(
+            title: 'Маслиҳати муфид',
+            description: 'Барои нигоҳ доштани саломатӣ оби фаровон нӯшед ва аз ғизоҳои шӯр худдорӣ намоед.',
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _StatWidget extends StatelessWidget {
-  final IconData icon;
-  final String value;
-  final String label;
-  final Color color;
+class _InfoCard extends StatelessWidget {
+  final String title;
+  final String description;
 
-  const _StatWidget({
-    required this.icon,
-    required this.value,
-    required this.label,
-    required this.color,
+  const _InfoCard({
+    required this.title,
+    required this.description,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GlassCard(
-      padding: const EdgeInsets.all(16),
-      borderRadius: 20,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4716A).withOpacity(0.9),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.white.withOpacity(0.8),
+                    height: 1.4,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-            child: Icon(icon, color: color, size: 24),
           ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppColors.textLight,
-            ),
-            textAlign: TextAlign.center,
+          const SizedBox(width: 8),
+          Icon(
+            Icons.chevron_right_rounded,
+            color: Colors.white.withOpacity(0.7),
+            size: 24,
           ),
         ],
       ),

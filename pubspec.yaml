@@ -24,4 +24,5 @@ flutter:
   
   assets:
     - assets/images/
+    - assets/images/nutrition/
     - assets/icons/
