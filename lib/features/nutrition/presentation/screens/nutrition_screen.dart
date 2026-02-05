@@ -16,37 +16,37 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
+    return Padding(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top,
+        left: 20,
+        right: 20,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
 
-            // Header
-            Text(
-              'Саломатӣ ва Ғизо',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
+          // Header
+          Text(
+            'Саломатӣ ва Ғизо',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            // Toggle tabs
-            _buildTabs(),
+          // Toggle tabs
+          _buildTabs(),
 
-            const SizedBox(height: 24),
+          const SizedBox(height: 24),
 
-            // Content grid
-            Expanded(
-              child: _selectedTab == 0
-                  ? _buildNutritionGrid()
-                  : _buildExercisesGrid(),
-            ),
-
-            const SizedBox(height: 100), // Bottom nav padding
-          ],
-        ),
+          // Content grid
+          Expanded(
+            child: _selectedTab == 0
+                ? _buildNutritionGrid()
+                : _buildExercisesGrid(),
+          ),
+        ],
       ),
     );
   }
@@ -117,10 +117,11 @@ class _NutritionScreenState extends State<NutritionScreen> {
     ];
 
     return GridView.count(
+      padding: const EdgeInsets.only(bottom: 120),
       crossAxisCount: 2,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      childAspectRatio: 0.95,
+      childAspectRatio: 0.85,
       children: items.map((item) => _buildNutritionCard(item)).toList(),
     );
   }
@@ -154,44 +155,50 @@ class _NutritionScreenState extends State<NutritionScreen> {
     ];
 
     return GridView.count(
+      padding: const EdgeInsets.only(bottom: 120),
       crossAxisCount: 2,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      childAspectRatio: 0.95,
+      childAspectRatio: 0.85,
       children: items.map((item) => _buildNutritionCard(item)).toList(),
     );
   }
 
   Widget _buildNutritionCard(_NutritionItem item) {
     return GlassCard(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: item.color.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               item.emoji,
-              style: const TextStyle(fontSize: 32),
+              style: const TextStyle(fontSize: 26),
             ),
           ),
-          const Spacer(),
+          const SizedBox(height: 10),
           Text(
             item.title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w600,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Text(
             item.subtitle,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.textLight,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

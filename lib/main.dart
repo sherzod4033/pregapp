@@ -7,6 +7,7 @@ import 'shared/widgets/glass_nav_bar.dart';
 import 'features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'features/contraction_timer/presentation/screens/contraction_screen.dart';
+import 'features/home/presentation/screens/tools_hub_screen.dart';
 import 'features/nutrition/presentation/screens/nutrition_screen.dart';
 
 void main() {
@@ -47,7 +48,7 @@ class _MainAppShellState extends State<MainAppShell> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    ContractionScreen(),
+    ToolsHubScreen(),
     NutritionScreen(),
     ProfilePlaceholder(),
   ];
@@ -57,6 +58,7 @@ class _MainAppShellState extends State<MainAppShell> {
     return GradientBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        extendBody: true,
         body: IndexedStack(
           index: _currentIndex,
           children: _screens,

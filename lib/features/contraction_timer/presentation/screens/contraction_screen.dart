@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/glass_card.dart';
+import '../../../../shared/widgets/gradient_background.dart';
 
 /// Screen 3: Contraction Timer
 /// Large pulsing button to track contractions with history log
@@ -78,30 +79,53 @@ class _ContractionScreenState extends State<ContractionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-
-            // Header
-            Text(
-              'Ҳисобкунаки дард',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-
-            const Spacer(),
-
-            // Timer display
-            Text(
-              _formatTime(_seconds),
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 56,
-                fontWeight: FontWeight.bold,
-                color: _isRunning ? AppColors.coral : AppColors.textDark,
+    return GradientBackground(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              
+              // Custom Header with Back Button and Centered Title
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.arrow_back_rounded, color: AppColors.textDark),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Ҳисобкунаки дард',
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontSize: 28,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-            ),
+
+              const Spacer(),
+
+              // Timer display
+              Text(
+                _formatTime(_seconds),
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  fontSize: 56,
+                  fontWeight: FontWeight.bold,
+                  color: _isRunning ? AppColors.coral : AppColors.textDark,
+                ),
+              ),
 
             const SizedBox(height: 32),
 
@@ -225,11 +249,11 @@ class _ContractionScreenState extends State<ContractionScreen>
               ),
             ],
 
-            const SizedBox(height: 100), // Bottom nav padding
+            const SizedBox(height: 32),
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
