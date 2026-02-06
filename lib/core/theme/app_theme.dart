@@ -23,48 +23,48 @@ class AppTheme {
       ),
 
       // Typography
-      textTheme: GoogleFonts.outfitTextTheme().copyWith(
-        displayLarge: GoogleFonts.outfit(
+      textTheme: GoogleFonts.nunitoTextTheme().copyWith(
+        displayLarge: GoogleFonts.nunito(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: AppColors.textDark,
         ),
-        displayMedium: GoogleFonts.outfit(
+        displayMedium: GoogleFonts.nunito(
           fontSize: 28,
           fontWeight: FontWeight.bold,
           color: AppColors.textDark,
         ),
-        headlineLarge: GoogleFonts.outfit(
+        headlineLarge: GoogleFonts.nunito(
           fontSize: 24,
           fontWeight: FontWeight.w600,
           color: AppColors.textDark,
         ),
-        headlineMedium: GoogleFonts.outfit(
+        headlineMedium: GoogleFonts.nunito(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textDark,
         ),
-        titleLarge: GoogleFonts.outfit(
+        titleLarge: GoogleFonts.nunito(
           fontSize: 18,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.textDark,
         ),
-        titleMedium: GoogleFonts.outfit(
+        titleMedium: GoogleFonts.nunito(
           fontSize: 16,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.textDark,
         ),
-        bodyLarge: GoogleFonts.outfit(
+        bodyLarge: GoogleFonts.nunito(
           fontSize: 16,
           fontWeight: FontWeight.normal,
           color: AppColors.textMedium,
         ),
-        bodyMedium: GoogleFonts.outfit(
+        bodyMedium: GoogleFonts.nunito(
           fontSize: 14,
           fontWeight: FontWeight.normal,
           color: AppColors.textMedium,
         ),
-        labelLarge: GoogleFonts.outfit(
+        labelLarge: GoogleFonts.nunito(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: Colors.white,
@@ -115,9 +115,9 @@ class AppTheme {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.outfit(
+        titleTextStyle: GoogleFonts.nunito(
           fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: AppColors.textDark,
         ),
         iconTheme: IconThemeData(color: AppColors.textDark),
